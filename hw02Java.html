@@ -1,0 +1,143 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    td {
+      height: 3em;
+      width: 10em;
+      text-align: center;
+      border: 1px solid;
+      background-color: rgb(241, 234, 234);
+
+
+    }
+
+    td.obj:hover {
+      position: relative;
+      top: 1.5px;
+      left: 1.5px;
+      box-shadow: 6px 6px 5px rgb(110, 110, 112)
+    }
+
+    .cell {
+      height: 3em;
+      width: 10em;
+    }
+
+    .cell>.detail {
+      display: none;
+
+    }
+
+    .cell>.detail.open {
+      display: block;
+      position: absolute;
+      height: 9em;
+      width: 20em;
+      background-color: rgb(214, 247, 214);
+      -webkit-border-radius: 35px;
+    }
+
+    td.a {
+      background-color: rgb(235, 206, 211);
+      -webkit-border-radius: 10px;
+    }
+
+    p {
+      font-size: 22px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    #grid {
+      border: 1px solid;
+      margin: auto auto auto auto;
+    }
+
+    .day {
+      height: 3em;
+      width: 10em;
+    }
+
+    .time {
+      height: 3em;
+      width: 10em;
+    }
+  </style>
+</head>
+
+<body>
+  <p> 课程表</p>
+  <table id="grid">
+  </table>
+  <script>
+    let timetable = new Array('', '周一<br/>Monday', '周二<br/>Tuesday', '周三<br/>Wednesday', '周四<br/>Thursday', '周五<br/>1Friday', '第一大节<br/>8:20-10:00', 'Web应用开发技术', '西方文化简史',
+      '管理信息系统', '运营管理', '', '第二大节<br/>10:20-12:00', '毛泽东思想与中国特色社会主义理论体系概论', '管理科学基础',
+      '毛泽东思想与中国特色社会主义理论体系概论', '管理科学基础', '运营管理', '第三大节<br/>14:00-15:40', '管理信息系统', '', '会计学', '体育',
+      '毛泽东思想与中国特色社会主义理论体系概论', '第四大节<br/>16:00-17:40', '电子商务', '数据库原理及运用', '', '会计学', '');
+    let detailtime = new Array('1', '2', '3', '4', '5', '6', '7', '西区第一公共教学楼C411<br/>任课教师：吕成功<br/> 周数：1~15周',
+      '西区第一公共教学楼C311<br/>任课教师：张金柱 <br/>周数：1~17周', '西区第一公共教学楼C105<br/>任课教师：刘烨<br/> 周数：1~15周',
+      '西区第一公共教学楼B405<br/>任课教师：刘亮<br/> 周数：1~15周', ' ', '15', '西区第一公共教学楼A120<br/> 任课教师：顾洪英<br/> 周数：1~16周',
+      '西区第一公共教学楼C411<br/>任课教师：赵方方 <br/>周数：3~17周', '西区第一公共教学楼A120<br/>任课教师：顾洪英<br/> 周数：1~16周',
+      '西区第一公共教学楼C411<br/> 任课教师：赵方方 <br/>周数：3~17周', '西区第一公共教学楼B405 <br/>任课教师：刘亮<br/> 周数：1~15周',
+      '25', '西区第一公共教学楼C105<br/>任课教师：刘烨 <br/>周数：1~15周', ' ', '西区第一公共教学楼B101 <br/>任课教师：姜红 <br/>周数：1~17周', '羽毛球馆',
+      '西区第一公共教学楼A120<br/> 任课教师：顾洪英<br/> 周数：1~16周', '31', '西区第一公共教学楼B303<br/> 任课教师：张亮<br/> 周数：3~17周', '西区第一公共教学楼C109 <br/>任课教师：吴君<br/> 周数：1~15周', '  ',
+      '西区第一公共教学楼B101<br/> 任课教师：姜红 <br/>周数：1~17周', '  ');
+    let tblEl = document.getElementById('grid');/*table表引用属性grid，tblEl=tableElement表元素   */
+    for (let i = 0; i < 5; i++)/*i表示第几行，表共五行，循环*/ {
+      let trEl = document.createElement('tr');/*创造tr元素，相当于<tr>,trEl=trElement*/
+      for (let j = 0; j < 6; j++) /*j表示第几行，表共六列，循环*/ {
+        let tdEl = document.createElement('td');/*创造td元素，相当于<td>,tdEl=tdElement*/
+        let divEl = document.createElement('div')/*创造div元素，相当于<div>,divEl=divElement*/
+        divEl.className = 'cell';                /*相当于<div class="cell">*/
+
+
+        let detailDivEl = document.createElement('div');/*创造一个课程表详细信息的块*/
+        if (i != 0 && ((6 * i + j) % 6) != 0) /*在课表内容处，属性是detail,将数组detailtime中的第(6*i+j)个元素内容输入*/
+         {
+          detailDivEl.className = 'detail';
+          detailDivEl.innerHTML = detailtime[6 * i + j];
+
+         };
+
+        tdEl.onclick = function (event) /*点击鼠标显示详细信息*/ 
+        {
+          let names = detailDivEl.className.split(' ');
+          names.push('open');
+          detailDivEl.className = names.join(' ');
+        }
+
+        detailDivEl.onmouseout = function (event) /*鼠标移开详细信息关闭*/ {
+          let names = detailDivEl.className.split(' ');
+          names = names.filter((x) => x != 'open')
+          detailDivEl.className = names.join(' ');
+        }
+
+
+        divEl.append(detailDivEl);/*关闭课程表详细信息的块*/
+
+
+        let briefDivEl = document.createElement('div');/*创造一个课程表显示信息的块*/
+        briefDivEl.innerHTML = timetable[6 * i + j];/*将数组timetable中的第(6*i+j)个元素内容输入*/
+        divEl.append(briefDivEl);/*关闭课程表显示信息的块*/
+
+
+
+        let classNames = [];
+        if (i != 0 && (8 * i + j) % 8 != 0) classNames.push('obj', 'a');/*课表内容鼠标移至浮动*/
+        if (i == 0) classNames.push('day');/*星期几时将day属性，push到classNames=[]中*/
+        if ((8 * i + j) % 8 == 0) classNames.push('time');/*上课具体时间时将time属性，push到classNames=[]中*/
+        tdEl.className = classNames.join(' ');
+
+        tdEl.append(divEl);/*关闭div元素，相当于</div>,td下的div关闭*/
+        trEl.append(tdEl);/*关闭td元素，相当于</td>,关闭这一列开启下一列，此tr下的此td关闭。td元素插入tr中*/
+      }
+      tblEl.append(trEl);/*关闭tr元素，相当于</tr>,关闭这一行开启下一行，table下的tr关闭。在table的末尾插入tr元素*/
+    }
+
+  </script>
+</body>
+
+
+</html>
